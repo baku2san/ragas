@@ -127,6 +127,9 @@ class NoiseSensitivity(MetricWithLLM, SingleTurnMetric):
         """
         assert self.llm is not None, "LLM is not set"
 
+        if not row["retrieved_contexts"]:
+            raise ValueError("The 'retrieved_contexts' must not be empty.")
+
         gt_statements = await self._decompose_answer_into_statements(
             row["reference"], row["user_input"], callbacks
         )
